@@ -30,11 +30,40 @@
  *
  * @since Twenty Fifteen 1.0
  */
- 
- 
- add_action( 'wp_enqueue_scripts', 'enqueue_parent_styles' );
+add_action( 'init', 'productos_cpt_create' );
 
-function enqueue_parent_styles() {
-   wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css' );
-}
 
+function productos_cpt_create() {
+	$labels = array(
+		'name' => __( 'productos'), 
+        'singular_name' => __( 'producto' ),
+        'add_new' => _x( 'Añadir nuevo', 'producto' ),
+        'add_new_item' => __( 'Añadir nuevo producto'),
+        'edit_item' => __( 'Editar producto' ),
+        'new_item' => __( 'Nuevo producto' ),
+        'view_item' => __( 'Ver producto' ),
+        'search_items' => __( 'Buscar productos' ),
+        'not_found' =>  __( 'No se ha encontrado ningún producto' ),
+        'not_found_in_trash' => __( 'No se han encontrado productos en la papelera' ),
+        'parent_item_colon' => ''
+    );
+ 
+    // Creamos un array para $args
+    $args = array(
+        'label' => __('productos'),
+        'labels' => $labels,
+        'public' => true,
+        'can_export' => true,
+        'show_ui' => true,
+        '_builtin' => false,
+        'capability_type' => 'post',        
+        'hierarchical' => false,
+        'rewrite' => array( "slug" => "productos" , 'with_front' => true),
+        'supports'=> array('title','editor','thumbnail','excerpt') ,
+        'show_in_nav_menus' => true,
+        'taxonomies' => array( 'productos_category'),
+        'menu_icon' => 'dashicons-admin-appearance',
+        'map_meta_cap' => true
+        );
+ 
+    register_post_type( 'productos', $args ); /* Registramos y a funcionar */
